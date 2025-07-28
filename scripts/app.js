@@ -1,8 +1,10 @@
-const correctDigits = [6, 5, 4, 9];
 const inputForm = document.getElementById("inputForm");
 const inputFields = Array.from(document.getElementsByClassName('guess'));
 const inputContainers = Array.from(document.getElementsByClassName("inputContainer"));
 
+// game state
+const correctDigits = [6, 5, 4, 9];
+let score = 0;
 
 // add digit field events
 inputFields.forEach(
@@ -38,29 +40,67 @@ inputForm.addEventListener("keydown", (e) => {
 inputForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
+    // for loop so we can break out when needed
     for (let i = 0; i < inputContainers.length; i++) {
         if (!inputContainers[i].disabled) {
             console.log(inputContainers[i], i);
 
-            const guesses = Array.from(inputContainers[i].querySelectorAll("input"))
+            // reset
+            let currentGuess = [];
+
+            // color the fields according to digit match
+            const guesses = Array.from(inputContainers[i].querySelectorAll("input"));
             guesses.forEach((inputElement, idx) => {
                 const guessedDigit = parseInt(inputElement.value);
 
                 // parseInt can still result in NaN
                 if (Number.isInteger(guessedDigit)) {
                     console.log(`Checking digit ${guessedDigit} at input ${idx}`);
+                    currentGuess.push(guessedDigit);
                     if (guessedDigit === correctDigits[idx]) {
                         console.log(`Digit ${guessedDigit} is correctly placed!`);
-                        inputElement.style = "background-color: green";
+                        inputElement.classList.add("correct");
                     } else if (correctDigits.includes(guessedDigit)) {
                         console.log(`Digit ${guessedDigit} is somewhere here!`);
-                        inputElement.style = "background-color: yellow";
+                        inputElement.classList.add("almost");
                     } else {
                         console.log(`Digit ${guessedDigit} NOT in number!`);
-                        inputElement.style = "background-color: red";
+                        inputElement.classList.add("wrong");
                     }
                 }
             });
+
+            // check the full guess
+            console.log(currentGuess);
+            if (currentGuess.toString() === correctDigits.toString()) {
+                console.log("YOU DID IT GZ!");
+
+                score++;
+
+                inputContainers[i].disabled = true;
+                const fieldsetButton = inputContainers[i].querySelector("button");
+                fieldsetButton.disabled = true;
+
+                const scoreElem = document.getElementById("score");
+                scoreElem.innerText = `Score: ${score}`;
+
+                // reset the board
+                inputFields.forEach((inp) => {
+                    inp.value = 0;
+                    inp.style = "";
+                    inp.classList.remove("correct", "almost", "wrong");
+                });
+                inputContainers.forEach((fs) => {
+                    fs.disabled = true;
+                    const btn = fs.querySelector("button");
+                    btn.disabled = true;
+                });
+                inputContainers[0].disabled = false;
+                inputContainers[0].querySelector("button").disabled = false;
+                inputContainers[0].querySelector("input").focus();
+
+                break;
+            }
 
             // move to next set of guesses
             inputContainers[i].disabled = true;

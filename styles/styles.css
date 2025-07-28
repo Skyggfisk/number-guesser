@@ -9,86 +9,65 @@ body {
     height: 100vh;
 }
 
-h1 {
-    text-align: center;
+:root {
+    --color-main: #0dff00;
+    --color-highlight: #ff6614;
+    --color-bg-dark: #474747;
+    --color-bg-light: #4f4f4f;
+    --color-success: green;
+    --color-close: yellow;
+    --color-wrong: red;
 }
 
 .container {
-    width: 500px;
-    border: 1px solid #ff6614;
+    border: 1px solid var(--color-highlight);
     border-radius: 2px;
     padding: 20px;
 }
 
-label {
-    padding: 10px;
-}
-
 .message {
-    color: #0dff00;
+    color: var(--color-main);
     height: 300px;
     overflow-y: auto;
     text-align: left;
-    background-color: #474747;
+    background-color: var(--color-bg-dark);
     font-size: 13px;
     padding: 5px;
-}
-
-.success {
-    color: #ff8400;
-    text-align: center;
-    font-weight: bold;
-    font-style: italic;
-    font-size: 16px;
-    border: 1px solid #ff8400;
-    padding: 5px;
-    width: 450px;
 }
 
 input {
-    background-color: #4f4f4f;
-    border: 2px solid black;
-    outline: none;
-    width: 16px;
-    font-size: 13px;
-    padding: 5px;
-    color: #0dff00;
-    margin: 0;
-}
-
-.inputPrefix {
-    padding: 5px;
-}
-
-.inputContainer {
-    display: flex;
-    /* background-color: #4f4f4f; */
-    font-size: 13px;
-    color: #0dff00;
-    margin-top: 10px;
-}
-
-button {
-    background-color: #2a2a2a;
-    font-size: 13px;
-    color: #0dff00;
+    background-color: var(--color-bg-light);
+    outline: 2px solid black;
     border: none;
-    outline: none;
-    width: 150px;
+    width: 36px;
+    height: 36px;
+    padding: 0px;
+    margin: 0;
+    font-size: 18px;
+    text-align: center;
+    color: var(--color-main);
 }
 
-button:hover {
-    cursor: pointer;
+input.guess.correct {
+    background-color: var(--color-success);
 }
 
-button:active {
-    background-color: #505050;
+input.guess.almost {
+    background-color: var(--color-close);
+}
+
+input.guess.wrong {
+    background-color: var(--color-wrong);
 }
 
 fieldset {
     border: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    font-size: 13px;
+    color: var(--color-main);
+    margin-top: 10px;
 }
 
 legend {
