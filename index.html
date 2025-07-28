@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the number!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="assets/bot.png" type="image/x-icon">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <form id="inputForm" novalidate autocomplete="off">
+            <fieldset class="inputContainer">
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <button type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></button>
+            </fieldset>
+            <fieldset class="inputContainer" disabled>
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <button type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+                    disabled></button>
+            </fieldset>
+            <fieldset class="inputContainer" disabled>
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
+                <button type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"
+                    disabled></button>
+            </fieldset>
+        </form>
+    </div>
+
+    <script src=" scripts/app.js"></script>
+</body>
+
+</html>
