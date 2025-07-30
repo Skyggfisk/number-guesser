@@ -84,22 +84,33 @@ inputForm.addEventListener("submit", (event) => {
                 const scoreElem = document.getElementById("score");
                 scoreElem.innerText = `Score: ${score}`;
 
-                // reset the board
-                inputFields.forEach((inp) => {
-                    inp.value = 0;
-                    inp.style = "";
-                    inp.classList.remove("correct", "almost", "wrong");
-                });
-                inputContainers.forEach((fs) => {
-                    fs.disabled = true;
-                    const btn = fs.querySelector("button");
-                    btn.disabled = true;
-                });
-                inputContainers[0].disabled = false;
-                inputContainers[0].querySelector("button").disabled = false;
-                inputContainers[0].querySelector("input").focus();
+                resetGameBoard();
 
                 break;
+            }
+
+            // if last fieldset had wrong guess end the game
+            if (currentGuess.toString() !== correctDigits.toString()) {
+                // if last fieldset is not disabled, this is our last guess
+                if (!inputContainers[inputContainers.length - 1].disabled) {
+                    console.log("LAST FIELDSET DISABLED CHECK");
+
+                    const gameOverDiv = document.createElement("div");
+                    gameOverDiv.id = "gameOverDiv";
+
+                    const gameOverText = document.createElement("div");
+                    gameOverText.innerText = `Game over! Your score is ${score}`;
+                    gameOverText.id = "gameOverText";
+                    gameOverDiv.appendChild(gameOverText);
+
+                    const tryAgainBtn = document.createElement("button");
+                    tryAgainBtn.innerText = "Try again?";
+                    tryAgainBtn.id = "tryAgainBtn";
+                    tryAgainBtn.addEventListener("click", resetGameBoard);
+                    gameOverDiv.appendChild(tryAgainBtn);
+
+                    document.querySelector(".container").append(gameOverDiv);
+                };
             }
 
             // move to next set of guesses
@@ -119,3 +130,24 @@ inputForm.addEventListener("submit", (event) => {
         }
     }
 });
+
+function resetGameBoard() {
+    if (document.getElementById("gameOverDiv")) {
+        const gameOverDiv = document.getElementById("gameOverDiv");
+        gameOverDiv.parentNode.removeChild(gameOverDiv);
+    }
+
+    inputFields.forEach((inp) => {
+        inp.value = 0;
+        inp.style = "";
+        inp.classList.remove("correct", "almost", "wrong");
+    });
+    inputContainers.forEach((fs) => {
+        fs.disabled = true;
+        const btn = fs.querySelector("button");
+        btn.disabled = true;
+    });
+    inputContainers[0].disabled = false;
+    inputContainers[0].querySelector("button").disabled = false;
+    inputContainers[0].querySelector("input").focus();
+}
