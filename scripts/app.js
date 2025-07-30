@@ -3,7 +3,7 @@ const inputFields = Array.from(document.getElementsByClassName('guess'));
 const inputContainers = Array.from(document.getElementsByClassName("inputContainer"));
 
 // game state
-const correctDigits = [6, 5, 4, 9];
+let correctDigits = [0, 0, 0, 0];
 let score = 0;
 
 // add digit field events
@@ -132,6 +132,8 @@ inputForm.addEventListener("submit", (event) => {
 });
 
 function resetGameBoard() {
+    console.log("Resetting board...");
+
     if (document.getElementById("gameOverDiv")) {
         const gameOverDiv = document.getElementById("gameOverDiv");
         gameOverDiv.parentNode.removeChild(gameOverDiv);
@@ -150,4 +152,22 @@ function resetGameBoard() {
     inputContainers[0].disabled = false;
     inputContainers[0].querySelector("button").disabled = false;
     inputContainers[0].querySelector("input").focus();
+
+    correctDigits = generateDigits();
 }
+
+function generateDigits() {
+    let digits = [];
+
+    for (let i = 0; i < 4; i++) {
+        const digit = Math.floor(Math.random() * 10);
+        digits.push(digit);
+    }
+
+    console.log("The next digits are:", digits);
+    return digits;
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    correctDigits = generateDigits();
+})
