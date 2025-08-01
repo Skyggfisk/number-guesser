@@ -48,46 +48,56 @@ inputForm.addEventListener("submit", (event) => {
         if (!inputContainers[i].disabled) {
             console.log(inputContainers[i], i);
 
-            let currentGuess = [];
+            const gsElemArr = Array.from(inputContainers[i].querySelectorAll("input"));
+            const gsArr = gsElemArr.map((inp) => parseInt(inp.value));
 
-            // color the fields according to digit match
-            const guesses = Array.from(inputContainers[i].querySelectorAll("input"));
-            guesses.forEach((inputElement, idx) => {
-                const guessedDigit = parseInt(inputElement.value);
-
-                // parseInt can still result in NaN
-                if (Number.isInteger(guessedDigit)) {
-                    console.log(`Checking digit ${guessedDigit} at input ${idx}`);
-                    currentGuess.push(guessedDigit);
-
-                    if (guessedDigit === correctDigits[idx]) {
-                        // direct digit match - update the tally
-                        correctDigitsTally.set(guessedDigit, correctDigitsTally.get(guessedDigit) - 1);
-                        console.log(`Digit ${guessedDigit} is correctly placed!`);
-                        inputElement.classList.add("correct");
-
-                    } else if (correctDigits.includes(guessedDigit) && correctDigitsTally.get(guessedDigit) > 0) {
-                        // the digit exists in the solution and not all positions have yet been found
-                        console.log(`Digit ${guessedDigit} is somewhere here!`);
-                        inputElement.classList.add("almost");
-                    } else {
-                        // the digit does not exist in the solution or all positions have already been found
-                        console.log(`Digit ${guessedDigit} NOT in number!`);
-                        inputElement.classList.add("wrong");
-
-                        // check how far off and if > or < to the solution digit
-                        if (correctDigits[idx] > guessedDigit) {
-                            inputElement.parentElement.classList.add("higher");
-                        } else {
-                            inputElement.parentElement.classList.add("lower");
-                        }
-                    }
+            const correctGuesses = gsArr.map((digit, index) => {
+                const returnObj = { digitGuess: digit, index: index, solution: correctDigits[index] };
+                if (digit === correctDigits[index]) {
+                    correctDigitsTally.set(digit, correctDigitsTally.get(digit) - 1);
+                    return { ...returnObj, correctness: "correct" };
                 }
+                return false;
             });
 
+            const misplacedGuesses = gsArr.map((digit, index) => {
+                const returnObj = { digitGuess: digit, index: index, solution: correctDigits[index] };
+                if (correctDigitsTally.get(digit) > 0) {
+                    return { ...returnObj, correctness: "almost" }
+                }
+                return false;
+            });
+
+            const gMerged = correctGuesses.map((go, i) => {
+                if (go) {
+                    return go;
+                }
+                if (misplacedGuesses[i] !== false) {
+                    return misplacedGuesses[i];
+                }
+                return { digitGuess: gsArr[i], index: i, solution: correctDigits[i], correctness: "wrong" };
+            });
+
+
+            gMerged.forEach((g, idx) => {
+                console.log("Applying...", g);
+
+                const inputElem = gsElemArr[idx];
+                inputElem.classList.add(g.correctness);
+
+                if (g.digitGuess > g.solution) {
+                    inputElem.parentElement.classList.add("lower")
+                }
+
+                if (g.digitGuess < g.solution) {
+                    inputElem.parentElement.classList.add("higher")
+                }
+
+            });
+
+
             // check the full guess
-            console.log(currentGuess);
-            if (currentGuess.toString() === correctDigits.toString()) {
+            if (gsArr.toString() === correctDigits.toString()) {
                 console.log("YOU DID IT GZ!");
 
                 score++;
@@ -105,7 +115,7 @@ inputForm.addEventListener("submit", (event) => {
             }
 
             // if last fieldset had wrong guess end the game
-            if (currentGuess.toString() !== correctDigits.toString()) {
+            if (gsArr.toString() !== correctDigits.toString()) {
                 // if last fieldset is not disabled, this is our last guess
                 if (!inputContainers[inputContainers.length - 1].disabled) {
                     console.log("LAST FIELDSET DISABLED CHECK");
@@ -158,6 +168,7 @@ function resetGameBoard() {
         inp.value = 0;
         inp.style = "";
         inp.classList.remove("correct", "almost", "wrong");
+        inp.parentElement.classList.remove("lower", "higher");
     });
     inputContainers.forEach((fs) => {
         fs.disabled = true;
