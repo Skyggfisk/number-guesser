@@ -11,16 +11,18 @@ let score = 0;
 inputFields.forEach(
     (el, index) => {
         el.addEventListener("keydown", (event) => {
+            // escape hatch for browser/system shortcuts (eg. ctrl+r)
+            if (event.ctrlKey || event.metaKey || event.altKey) return;
+            event.preventDefault(); // stop anything from falling through
+
             const isNumber = /^[0-9]$/.test(event.key);
 
             if (isNumber) {
-                event.preventDefault();
                 el.value = event.key;
                 if (index < inputFields.length - 1) inputFields[index + 1].focus();
             }
 
             if (event.key === "Backspace") {
-                event.preventDefault();
                 el.value = "0";
                 if (index > 0) inputFields[index - 1].focus();
             }
@@ -195,4 +197,5 @@ function tallyDigits(digitsArray) {
 
 window.addEventListener("DOMContentLoaded", () => {
     correctDigits = generateDigits();
+    inputFields[0].focus();
 })
