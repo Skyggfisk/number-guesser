@@ -72,6 +72,13 @@ inputForm.addEventListener("submit", (event) => {
                         // the digit does not exist in the solution or all positions have already been found
                         console.log(`Digit ${guessedDigit} NOT in number!`);
                         inputElement.classList.add("wrong");
+
+                        // check how far off and if > or < to the solution digit
+                        if (correctDigits[idx] > guessedDigit) {
+                            inputElement.parentElement.classList.add("higher");
+                        } else {
+                            inputElement.parentElement.classList.add("lower");
+                        }
                     }
                 }
             });

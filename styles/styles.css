@@ -60,6 +60,21 @@ input.guess.wrong {
     background-color: var(--color-wrong);
 }
 
+.inputWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.higher::before {
+    content: "⬆️";
+    position: absolute;
+}
+
+.lower::before {
+    content: "⬇️";
+    position: absolute;
+}
+
 fieldset {
     border: none;
     padding: 0;
