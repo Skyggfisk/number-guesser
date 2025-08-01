@@ -4,6 +4,7 @@ const inputContainers = Array.from(document.getElementsByClassName("inputContain
 
 // game state
 let correctDigits = [0, 0, 0, 0];
+const correctDigitsTally = new Map();
 let score = 0;
 
 // add digit field events
@@ -45,7 +46,6 @@ inputForm.addEventListener("submit", (event) => {
         if (!inputContainers[i].disabled) {
             console.log(inputContainers[i], i);
 
-            // reset
             let currentGuess = [];
 
             // color the fields according to digit match
@@ -57,13 +57,19 @@ inputForm.addEventListener("submit", (event) => {
                 if (Number.isInteger(guessedDigit)) {
                     console.log(`Checking digit ${guessedDigit} at input ${idx}`);
                     currentGuess.push(guessedDigit);
+
                     if (guessedDigit === correctDigits[idx]) {
+                        // direct digit match - update the tally
+                        correctDigitsTally.set(guessedDigit, correctDigitsTally.get(guessedDigit) - 1);
                         console.log(`Digit ${guessedDigit} is correctly placed!`);
                         inputElement.classList.add("correct");
-                    } else if (correctDigits.includes(guessedDigit)) {
+
+                    } else if (correctDigits.includes(guessedDigit) && correctDigitsTally.get(guessedDigit) > 0) {
+                        // the digit exists in the solution and not all positions have yet been found
                         console.log(`Digit ${guessedDigit} is somewhere here!`);
                         inputElement.classList.add("almost");
                     } else {
+                        // the digit does not exist in the solution or all positions have already been found
                         console.log(`Digit ${guessedDigit} NOT in number!`);
                         inputElement.classList.add("wrong");
                     }
@@ -165,7 +171,19 @@ function generateDigits() {
     }
 
     console.log("The next digits are:", digits);
+
+    tallyDigits(digits);
+
     return digits;
+}
+
+function tallyDigits(digitsArray) {
+    // tally up the new digits for convenience
+    correctDigitsTally.clear();
+    for (const digit of digitsArray) {
+        correctDigitsTally.set(digit, (correctDigitsTally.get(digit) || 0) + 1);
+    }
+    console.log("Digits tally:", Object.fromEntries(correctDigitsTally));
 }
 
 window.addEventListener("DOMContentLoaded", () => {
