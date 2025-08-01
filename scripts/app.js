@@ -46,12 +46,10 @@ inputForm.addEventListener("submit", (event) => {
     // for loop so we can break out when needed
     for (let i = 0; i < inputContainers.length; i++) {
         if (!inputContainers[i].disabled) {
-            console.log(inputContainers[i], i);
+            const guessElements = Array.from(inputContainers[i].querySelectorAll("input"));
+            const guess = guessElements.map((input) => parseInt(input.value));
 
-            const gsElemArr = Array.from(inputContainers[i].querySelectorAll("input"));
-            const gsArr = gsElemArr.map((inp) => parseInt(inp.value));
-
-            const correctGuesses = gsArr.map((digit, index) => {
+            const correctGuesses = guess.map((digit, index) => {
                 const returnObj = { digitGuess: digit, index: index, solution: correctDigits[index] };
                 if (digit === correctDigits[index]) {
                     correctDigitsTally.set(digit, correctDigitsTally.get(digit) - 1);
@@ -60,7 +58,7 @@ inputForm.addEventListener("submit", (event) => {
                 return false;
             });
 
-            const misplacedGuesses = gsArr.map((digit, index) => {
+            const misplacedGuesses = guess.map((digit, index) => {
                 const returnObj = { digitGuess: digit, index: index, solution: correctDigits[index] };
                 if (correctDigitsTally.get(digit) > 0) {
                     return { ...returnObj, correctness: "almost" }
@@ -68,28 +66,26 @@ inputForm.addEventListener("submit", (event) => {
                 return false;
             });
 
-            const gMerged = correctGuesses.map((go, i) => {
-                if (go) {
-                    return go;
+            const guessesMerged = correctGuesses.map((guessObject, index) => {
+                if (guessObject) {
+                    return guessObject;
                 }
-                if (misplacedGuesses[i] !== false) {
-                    return misplacedGuesses[i];
+                if (misplacedGuesses[index] !== false) {
+                    return misplacedGuesses[index];
                 }
-                return { digitGuess: gsArr[i], index: i, solution: correctDigits[i], correctness: "wrong" };
+                return { digitGuess: guess[index], index: index, solution: correctDigits[index], correctness: "wrong" };
             });
 
 
-            gMerged.forEach((g, idx) => {
-                console.log("Applying...", g);
+            guessesMerged.forEach((guess, index) => {
+                const inputElem = guessElements[index];
+                inputElem.classList.add(guess.correctness);
 
-                const inputElem = gsElemArr[idx];
-                inputElem.classList.add(g.correctness);
-
-                if (g.digitGuess > g.solution) {
+                if (guess.digitGuess > guess.solution) {
                     inputElem.parentElement.classList.add("lower")
                 }
 
-                if (g.digitGuess < g.solution) {
+                if (guess.digitGuess < guess.solution) {
                     inputElem.parentElement.classList.add("higher")
                 }
 
@@ -97,29 +93,23 @@ inputForm.addEventListener("submit", (event) => {
 
 
             // check the full guess
-            if (gsArr.toString() === correctDigits.toString()) {
-                console.log("YOU DID IT GZ!");
-
+            if (guess.toString() === correctDigits.toString()) {
                 score++;
 
                 inputContainers[i].disabled = true;
                 const fieldsetButton = inputContainers[i].querySelector("button");
                 fieldsetButton.disabled = true;
-
                 const scoreElem = document.getElementById("score");
                 scoreElem.innerText = `Score: ${score}`;
 
                 resetGameBoard();
-
                 break;
             }
 
             // if last fieldset had wrong guess end the game
-            if (gsArr.toString() !== correctDigits.toString()) {
+            if (guess.toString() !== correctDigits.toString()) {
                 // if last fieldset is not disabled, this is our last guess
                 if (!inputContainers[inputContainers.length - 1].disabled) {
-                    console.log("LAST FIELDSET DISABLED CHECK");
-
                     const gameOverDiv = document.createElement("div");
                     gameOverDiv.id = "gameOverDiv";
 
@@ -157,8 +147,6 @@ inputForm.addEventListener("submit", (event) => {
 });
 
 function resetGameBoard() {
-    console.log("Resetting board...");
-
     if (document.getElementById("gameOverDiv")) {
         const gameOverDiv = document.getElementById("gameOverDiv");
         gameOverDiv.parentNode.removeChild(gameOverDiv);
@@ -198,7 +186,6 @@ function generateDigits() {
 }
 
 function tallyDigits(digitsArray) {
-    // tally up the new digits for convenience
     correctDigitsTally.clear();
     for (const digit of digitsArray) {
         correctDigitsTally.set(digit, (correctDigitsTally.get(digit) || 0) + 1);
