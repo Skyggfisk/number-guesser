@@ -1,3 +1,7 @@
+const startMenu = document.getElementById("startMenu");
+const gameContainer = document.getElementById("gameContainer");
+const startGameBtn = document.getElementById("startGameBtn");
+
 const inputForm = document.getElementById("inputForm");
 const inputFields = Array.from(document.getElementsByClassName('guess'));
 const inputContainers = Array.from(document.getElementsByClassName("inputContainer"));
@@ -193,7 +197,15 @@ function tallyDigits(digitsArray) {
     console.log("Digits tally:", Object.fromEntries(correctDigitsTally));
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+function startNewGame() {
     correctDigits = generateDigits();
     inputFields[0].focus();
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+    startGameBtn.addEventListener("click", () => {
+        startMenu.style.display = "none";
+        gameContainer.style.display = "block";
+        startNewGame();
+    });
 })

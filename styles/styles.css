@@ -88,3 +88,31 @@ fieldset {
 legend {
     display: none;
 }
+
+#startMenu {
+    text-align: center;
+    padding: 2rem;
+}
+
+#startMenu h2 {
+    margin-bottom: 1rem;
+}
+
+#startMenu p {
+    margin-bottom: 2rem;
+}
+
+#startGameBtn {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+#startGameBtn:hover {
+    background-color: #45a049;
+}
