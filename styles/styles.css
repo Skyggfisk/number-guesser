@@ -116,3 +116,42 @@ legend {
 #startGameBtn:hover {
     background-color: #45a049;
 }
+
+.game-over-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-over-content {
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.game-over-content h2 {
+    color: var(--color-highlight);
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+.game-over-content p {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+}
+
+#tryAgainBtn {
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    background-color: var(--color-main);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#tryAgainBtn:hover {
+    background-color: #27ae60;
+}

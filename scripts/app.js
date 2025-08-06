@@ -9,6 +9,7 @@ const inputContainers = Array.from(document.getElementsByClassName("inputContain
 // game state
 let correctDigits = [0, 0, 0, 0];
 const correctDigitsTally = new Map();
+let totalGuessCount = 0;
 let score = 0;
 
 // add digit field events
@@ -50,6 +51,9 @@ inputForm.addEventListener("submit", (event) => {
     // for loop so we can break out when needed
     for (let i = 0; i < inputContainers.length; i++) {
         if (!inputContainers[i].disabled) {
+            totalGuessCount++;
+
+            // validate the guess
             const guessElements = Array.from(inputContainers[i].querySelectorAll("input"));
             const guess = guessElements.map((input) => parseInt(input.value));
 
@@ -116,19 +120,25 @@ inputForm.addEventListener("submit", (event) => {
                 if (!inputContainers[inputContainers.length - 1].disabled) {
                     const gameOverDiv = document.createElement("div");
                     gameOverDiv.id = "gameOverDiv";
+                    gameOverDiv.className = "game-over-screen";
 
-                    const gameOverText = document.createElement("div");
-                    gameOverText.innerText = `Game over! Your score is ${score}`;
-                    gameOverText.id = "gameOverText";
-                    gameOverDiv.appendChild(gameOverText);
-
-                    const tryAgainBtn = document.createElement("button");
-                    tryAgainBtn.innerText = "Try again?";
-                    tryAgainBtn.id = "tryAgainBtn";
-                    tryAgainBtn.addEventListener("click", resetGameBoard);
-                    gameOverDiv.appendChild(tryAgainBtn);
-
+                    const gameOverConent = `
+                        <div class="game-over-content">
+                            <h2>Game Over!</h2>
+                            <p>The correct numbers were <strong>${correctDigits.join(" ")}</strong>.</p>
+                            <p>You made <strong>${totalGuessCount}</strong> guesses.</p>
+                            <p>Your final score is <strong>${score}</strong>.</p>
+                            <button id="tryAgainBtn">Try Again?</button>
+                        </div>
+                    `;
+                    gameOverDiv.innerHTML = gameOverConent;
                     document.querySelector(".container").append(gameOverDiv);
+                    document.getElementById("tryAgainBtn").addEventListener("click", () => {
+                        document.getElementById("score").innerText = `Score: ${score}`;
+                        gameContainer.style.display = "block";
+                        startNewGame();
+                    });
+                    gameContainer.style.display = "none";
                 };
             }
 
@@ -194,11 +204,12 @@ function tallyDigits(digitsArray) {
     for (const digit of digitsArray) {
         correctDigitsTally.set(digit, (correctDigitsTally.get(digit) || 0) + 1);
     }
-    console.log("Digits tally:", Object.fromEntries(correctDigitsTally));
 }
 
 function startNewGame() {
-    correctDigits = generateDigits();
+    score = 0;
+    totalGuessCount = 0;
+    resetGameBoard();
     inputFields[0].focus();
 }
 
