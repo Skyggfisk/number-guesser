@@ -23,57 +23,15 @@
         <div id="gameContainer" style="display: none;">
             <div id="score">Score: 0</div>
             <form id="inputForm" novalidate autocomplete="off">
-                <fieldset class="inputContainer">
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <button type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"></button>
-                </fieldset>
-                <fieldset class="inputContainer" disabled>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <button type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"
-                        disabled></button>
-                </fieldset>
-                <fieldset class="inputContainer" disabled>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <div class="inputWrapper">
-                        <input class="guess" type="text" inputmode="numeric" maxlength="1" value="0" />
-                    </div>
-                    <button type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"
-                        disabled></button>
-                </fieldset>
+                <guess-row></guess-row>
+                <guess-row></guess-row>
+                <guess-row></guess-row>
+                <guess-row></guess-row>
             </form>
         </div>
     </div>
 
+    <script src="scripts/guess-row.js"></script>
     <script src=" scripts/app.js"></script>
 </body>
 

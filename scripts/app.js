@@ -6,6 +6,8 @@ const inputForm = document.getElementById("inputForm");
 const inputFields = Array.from(document.getElementsByClassName('guess'));
 const inputContainers = Array.from(document.getElementsByClassName("inputContainer"));
 
+const guessRows = Array.from(document.getElementsByTagName("guess-row"));
+
 // game state
 let correctDigits = [0, 0, 0, 0];
 const correctDigitsTally = new Map();
@@ -166,17 +168,12 @@ function resetGameBoard() {
         gameOverDiv.parentNode.removeChild(gameOverDiv);
     }
 
-    inputFields.forEach((inp) => {
-        inp.value = 0;
-        inp.style = "";
-        inp.classList.remove("correct", "almost", "wrong");
-        inp.parentElement.classList.remove("lower", "higher");
+    // reset all guess rows
+    guessRows.forEach((row) => {
+        row.reset();
+        row.disabled = true;
     });
-    inputContainers.forEach((fs) => {
-        fs.disabled = true;
-        const btn = fs.querySelector("button");
-        btn.disabled = true;
-    });
+
     inputContainers[0].disabled = false;
     inputContainers[0].querySelector("button").disabled = false;
     inputContainers[0].querySelector("input").focus();
