@@ -121,19 +121,17 @@ inputForm.addEventListener("submit", (event) => {
                 // if last fieldset is not disabled, this is our last guess
                 if (!inputContainers[inputContainers.length - 1].disabled) {
                     const gameOverDiv = document.createElement("div");
-                    gameOverDiv.id = "gameOverDiv";
-                    gameOverDiv.className = "game-over-screen";
+                    gameOverDiv.id = "gameOverMenu";
+                    gameOverDiv.className = "menu";
 
-                    const gameOverConent = `
-                        <div class="game-over-content">
-                            <h2>Game Over!</h2>
-                            <p>The correct numbers were <strong>${correctDigits.join(" ")}</strong>.</p>
-                            <p>You made <strong>${totalGuessCount}</strong> guesses.</p>
-                            <p>Your final score is <strong>${score}</strong>.</p>
-                            <button id="tryAgainBtn">Try Again?</button>
-                        </div>
+                    const gameOverContent = `
+                        <h2>Game Over!</h2>
+                        <p>The correct numbers were <strong>${correctDigits.join(" ")}</strong>.</p>
+                        <p>You made <strong>${totalGuessCount}</strong> guesses.</p>
+                        <p>Your final score is <strong>${score}</strong>.</p>
+                        <button id="tryAgainBtn" class="button-lg">Try Again?</button>
                     `;
-                    gameOverDiv.innerHTML = gameOverConent;
+                    gameOverDiv.innerHTML = gameOverContent;
                     document.querySelector(".container").append(gameOverDiv);
                     document.getElementById("tryAgainBtn").addEventListener("click", () => {
                         document.getElementById("score").innerText = `Score: ${score}`;
@@ -163,8 +161,8 @@ inputForm.addEventListener("submit", (event) => {
 });
 
 function resetGameBoard() {
-    if (document.getElementById("gameOverDiv")) {
-        const gameOverDiv = document.getElementById("gameOverDiv");
+    if (document.getElementById("gameOverMenu")) {
+        const gameOverDiv = document.getElementById("gameOverMenu");
         gameOverDiv.parentNode.removeChild(gameOverDiv);
     }
 
