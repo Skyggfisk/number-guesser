@@ -15,6 +15,30 @@
 
 <body>
     <div class="container">
+        <div id="topbar">
+            <div class="topbar-right">
+                <p>🤖 nmbrs!</p>
+            </div>
+            <div class="topbar-left">
+                <div class="topbar-btn" id="game-info">
+                    ?
+                    <div class="game-info-tooltip">
+                        <p>Hints legend</p>
+                        <p>🟥: This number does not appear in the solution.</p>
+                        <p>🟨: This number appears in the solution but is placed incorrectly.</p>
+                        <p>🟩: This number has been placed in the correct position.</p>
+                        <hr>
+                        <p>🔼: The correct number for this position is larger.</p>
+                        <p>🔽: The correct number for this position is smaller.</p>
+                    </div>
+                </div>
+                <div class="topbar-btn" id="game-exit">X
+                    <div class="game-info-tooltip">
+                        <p>Exit the game and return to the main menu.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="startMenu" class="menu">
             <h2>Welcome to Number Guesser!</h2>
             <p>Try to guess the 4-digit number. You'll get hints after each guess.</p>

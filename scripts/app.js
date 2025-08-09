@@ -1,6 +1,8 @@
 const startMenu = document.getElementById("startMenu");
 const gameContainer = document.getElementById("gameContainer");
 const startGameBtn = document.getElementById("startGameBtn");
+const gameExitBtn = document.getElementById("game-exit");
+const scoreElem = document.getElementById("score");
 
 const inputForm = document.getElementById("inputForm");
 const inputFields = Array.from(document.getElementsByClassName('guess'));
@@ -109,7 +111,6 @@ inputForm.addEventListener("submit", (event) => {
                 inputContainers[i].disabled = true;
                 const fieldsetButton = inputContainers[i].querySelector("button");
                 fieldsetButton.disabled = true;
-                const scoreElem = document.getElementById("score");
                 scoreElem.innerText = `Score: ${score}`;
 
                 resetGameBoard();
@@ -134,7 +135,7 @@ inputForm.addEventListener("submit", (event) => {
                     gameOverDiv.innerHTML = gameOverContent;
                     document.querySelector(".container").append(gameOverDiv);
                     document.getElementById("tryAgainBtn").addEventListener("click", () => {
-                        document.getElementById("score").innerText = `Score: ${score}`;
+                        scoreElem.innerText = `Score: ${score}`;
                         gameContainer.style.display = "block";
                         startNewGame();
                     });
@@ -187,8 +188,6 @@ function generateDigits() {
         digits.push(digit);
     }
 
-    console.log("The next digits are:", digits);
-
     tallyDigits(digits);
 
     return digits;
@@ -203,6 +202,7 @@ function tallyDigits(digitsArray) {
 
 function startNewGame() {
     score = 0;
+    scoreElem.innerText = `Score: ${score}`;
     totalGuessCount = 0;
     resetGameBoard();
     inputFields[0].focus();
@@ -213,5 +213,11 @@ window.addEventListener("DOMContentLoaded", () => {
         startMenu.style.display = "none";
         gameContainer.style.display = "block";
         startNewGame();
+    });
+
+    gameExitBtn.addEventListener("click", () => {
+        startMenu.style.display = "flex";
+        gameContainer.style.display = "none";
+        document.getElementById("gameOverMenu")?.remove();
     });
 })
