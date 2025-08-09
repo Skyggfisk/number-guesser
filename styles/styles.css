@@ -44,21 +44,96 @@ input {
     text-align: center;
     color: var(--color-main);
 
+    transform-style: preserve-3d;
+    perspective: 1000px;
+
     &.guess {
         &.correct {
-            background-color: var(--color-guess-success);
-            color: var(--color-txt-light);
+            animation: flip-correct 0.4s ease-in forwards;
+            animation-delay: calc(var(--index, 0) * 0.15s);
         }
 
         &.almost {
-            background-color: var(--color-guess-close);
-            color: var(--color-txt-light);
+            animation: flip-almost 0.4s ease-in forwards;
+            animation-delay: calc(var(--index, 0) * 0.15s);
         }
 
         &.wrong {
-            background-color: var(--color-guess-wrong);
-            color: var(--color-txt-light);
+            animation: flip-wrong 0.4s ease-in forwards;
+            animation-delay: calc(var(--index, 0) * 0.15s);
         }
+    }
+}
+
+
+@keyframes flip-correct {
+
+    0% {
+        transform: rotateX(0);
+        background-color: var(--color-bg-light);
+    }
+
+    50% {
+        transform: rotateX(180deg);
+        background-color: var(--color-bg-light);
+    }
+
+    51%,
+    100% {
+        background-color: var(--color-guess-success);
+        color: var(--color-txt-light);
+    }
+
+    100% {
+        transform: rotateX(360deg);
+    }
+}
+
+@keyframes flip-almost {
+
+    0% {
+        transform: rotateX(0);
+        background-color: var(--color-bg-light);
+    }
+
+    50% {
+        transform: rotateX(180deg);
+        background-color: var(--color-bg-light);
+    }
+
+    51%,
+    100% {
+        background-color: var(--color-guess-close);
+        color: var(--color-txt-light);
+
+    }
+
+    100% {
+        transform: rotateX(360deg);
+    }
+}
+
+@keyframes flip-wrong {
+
+    0% {
+        transform: rotateX(0);
+        background-color: var(--color-bg-light);
+    }
+
+    50% {
+        transform: rotateX(180deg);
+        background-color: var(--color-bg-light);
+    }
+
+    51%,
+    100% {
+        background-color: var(--color-guess-wrong);
+        color: var(--color-txt-light);
+
+    }
+
+    100% {
+        transform: rotateX(360deg);
     }
 }
 
@@ -69,13 +144,27 @@ input {
 }
 
 .higher::before {
-    content: "⬆️";
+    content: "🔼";
     position: absolute;
+    z-index: 9999;
+}
+
+.even-higher::before {
+    content: "⏫";
+    position: absolute;
+    z-index: 9999;
 }
 
 .lower::before {
-    content: "⬇️";
+    content: "🔽";
     position: absolute;
+    z-index: 9999;
+}
+
+.even-lower::before {
+    content: "⏬";
+    position: absolute;
+    z-index: 9999;
 }
 
 fieldset {
