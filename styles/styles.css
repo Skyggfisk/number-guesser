@@ -144,27 +144,18 @@ input {
 }
 
 .higher::before {
-    content: "🔼";
+    content: "v";
     position: absolute;
     z-index: 9999;
-}
-
-.even-higher::before {
-    content: "⏫";
-    position: absolute;
-    z-index: 9999;
+    transform: rotate(0.5turn);
+    line-height: 0.5;
 }
 
 .lower::before {
-    content: "🔽";
+    content: "v";
     position: absolute;
     z-index: 9999;
-}
-
-.even-lower::before {
-    content: "⏬";
-    position: absolute;
-    z-index: 9999;
+    line-height: 1;
 }
 
 fieldset {
