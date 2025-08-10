@@ -111,9 +111,12 @@ inputForm.addEventListener("submit", (event) => {
                 inputContainers[i].disabled = true;
                 const fieldsetButton = inputContainers[i].querySelector("button");
                 fieldsetButton.disabled = true;
-                scoreElem.innerText = `Score: ${score}`;
 
-                resetGameBoard();
+                setTimeout(() => {
+                    scoreElem.innerText = `Score: ${score}`;
+                    resetGameBoard();
+                }, 1500);
+
                 break;
             }
 
@@ -133,13 +136,17 @@ inputForm.addEventListener("submit", (event) => {
                         <button id="tryAgainBtn" class="button-lg">Try Again?</button>
                     `;
                     gameOverDiv.innerHTML = gameOverContent;
-                    document.querySelector(".container").append(gameOverDiv);
-                    document.getElementById("tryAgainBtn").addEventListener("click", () => {
-                        scoreElem.innerText = `Score: ${score}`;
-                        gameContainer.style.display = "block";
-                        startNewGame();
-                    });
-                    gameContainer.style.display = "none";
+
+                    // wait a little for animation and player to see the last guess
+                    setTimeout(() => {
+                        document.querySelector(".container").append(gameOverDiv);
+                        document.getElementById("tryAgainBtn").addEventListener("click", () => {
+                            scoreElem.innerText = `Score: ${score}`;
+                            gameContainer.style.display = "block";
+                            startNewGame();
+                        });
+                        gameContainer.style.display = "none";
+                    }, 1500);
                 };
             }
 
@@ -161,7 +168,7 @@ inputForm.addEventListener("submit", (event) => {
     }
 });
 
-function resetGameBoard() {
+function resetGameBoard(noResetAnimation = false) {
     if (document.getElementById("gameOverMenu")) {
         const gameOverDiv = document.getElementById("gameOverMenu");
         gameOverDiv.parentNode.removeChild(gameOverDiv);
@@ -169,7 +176,7 @@ function resetGameBoard() {
 
     // reset all guess rows
     guessRows.forEach((row) => {
-        row.reset();
+        row.reset(noResetAnimation);
         row.disabled = true;
     });
 
@@ -200,11 +207,11 @@ function tallyDigits(digitsArray) {
     }
 }
 
-function startNewGame() {
+function startNewGame(noResetAnimation = false) {
     score = 0;
     scoreElem.innerText = `Score: ${score}`;
     totalGuessCount = 0;
-    resetGameBoard();
+    resetGameBoard(noResetAnimation);
     inputFields[0].focus();
 }
 
@@ -212,7 +219,7 @@ window.addEventListener("DOMContentLoaded", () => {
     startGameBtn.addEventListener("click", () => {
         startMenu.style.display = "none";
         gameContainer.style.display = "block";
-        startNewGame();
+        startNewGame(true); // start with no fade+scale animation
     });
 
     gameExitBtn.addEventListener("click", () => {

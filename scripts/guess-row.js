@@ -33,12 +33,26 @@ class GuessRow extends HTMLElement {
         return this.fieldset.hasAttribute("disabled");
     }
 
-    reset() {
-        this.inputs.forEach(input => {
-            input.value = 0;
-            input.classList.remove("correct", "almost", "wrong");
+    // TODO: The animation is really janky, needs a more holistic system,
+    // for now hit some lucky magic numbers that work okay-ish.
+    reset(noResetAnimation = false) {
+        this.inputs.forEach((input, index) => {
+            input.style.opacity = 0;
             input.parentElement.classList.remove("lower", "higher");
-        })
+
+            // don't fade + scale 
+            if (!noResetAnimation) {
+                input.classList.add("reset-guess");
+            }
+
+            // staggered reset animation
+            setTimeout(() => {
+                input.value = 0;
+                input.classList.remove("correct", "almost", "wrong", "reset-guess");
+                input.parentElement.classList.remove("lower", "higher");
+                input.style.opacity = 1;
+            }, 500 + index * 100);
+        });
     }
 }
 

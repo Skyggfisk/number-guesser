@@ -50,23 +50,25 @@ input {
     text-align: center;
     color: var(--color-main);
 
+    /* animated props */
     transform-style: preserve-3d;
     perspective: 1000px;
+    opacity: 0;
 
     &.guess {
         &.correct {
             animation: flip-correct 0.4s ease-in forwards;
-            animation-delay: calc(var(--index, 0) * 0.15s);
+            animation-delay: calc(var(--index, 0) * 0.25s);
         }
 
         &.almost {
             animation: flip-almost 0.4s ease-in forwards;
-            animation-delay: calc(var(--index, 0) * 0.15s);
+            animation-delay: calc(var(--index, 0) * 0.25s);
         }
 
         &.wrong {
             animation: flip-wrong 0.4s ease-in forwards;
-            animation-delay: calc(var(--index, 0) * 0.15s);
+            animation-delay: calc(var(--index, 0) * 0.25s);
         }
     }
 }
@@ -270,4 +272,20 @@ fieldset {
     font-size: 12px;
     text-align: start;
     width: 200px;
+}
+
+.reset-guess {
+    animation: reset-guess 0.5s ease forwards;
+}
+
+@keyframes reset-guess {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
 }
