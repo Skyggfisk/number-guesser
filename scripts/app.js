@@ -124,6 +124,9 @@ inputForm.addEventListener("submit", (event) => {
             if (guess.toString() !== correctDigits.toString()) {
                 // if last fieldset is not disabled, this is our last guess
                 if (!inputContainers[inputContainers.length - 1].disabled) {
+                    // show the game over menu
+                    const topThree = saveGameScore();
+
                     const gameOverDiv = document.createElement("div");
                     gameOverDiv.id = "gameOverMenu";
                     gameOverDiv.className = "menu";
@@ -131,8 +134,8 @@ inputForm.addEventListener("submit", (event) => {
                     const gameOverContent = `
                         <h2>Game Over!</h2>
                         <p>The correct numbers were <strong>${correctDigits.join(" ")}</strong>.</p>
-                        <p>You made <strong>${totalGuessCount}</strong> guesses.</p>
-                        <p>Your final score is <strong>${score}</strong>.</p>
+                        <p>You scored <strong>${score}</strong> after <strong>${totalGuessCount}</strong> guesses.</p>
+                        <p>Your top scores so far: ${topThree.map(s => "<strong>" + s + "</strong>").join(", ")}.</p>
                         <button id="tryAgainBtn" class="button-lg">Try Again?</button>
                     `;
                     gameOverDiv.innerHTML = gameOverContent;
@@ -213,6 +216,20 @@ function startNewGame(noResetAnimation = false) {
     totalGuessCount = 0;
     resetGameBoard(noResetAnimation);
     inputFields[0].focus();
+}
+
+function saveGameScore() {
+    const gameScore = window.localStorage.getItem("gameScore");
+    const gameScoreObj = gameScore ? JSON.parse(gameScore) : {};
+    gameScoreObj[Date.now()] = {
+        score: score,
+        totalGuessCounter: totalGuessCount
+    };
+    window.localStorage.setItem("gameScore", JSON.stringify(gameScoreObj));
+    const allScores = Object.values(gameScoreObj).map((gs) => gs.score);
+    const topThree = [...new Set(allScores)].sort((a, b) => a < b ? 0 : -1).slice(0, 3);
+
+    return topThree;
 }
 
 window.addEventListener("DOMContentLoaded", () => {

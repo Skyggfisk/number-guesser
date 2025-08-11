@@ -7,9 +7,9 @@
     --color-txt-dark: #000;
     --color-txt-light: #fff;
 
-    --color-guess-success: #00ff00;
-    --color-guess-close: #ffc300;
-    --color-guess-wrong: #ff0000;
+    --color-guess-success: #32CD32;
+    --color-guess-close: #FFBF00;
+    --color-guess-wrong: #DC143C;
 
     --color-btn-bg: #0ad100;
     --color-btn-bg-hover: #09b100;
@@ -194,6 +194,10 @@ fieldset {
     &:last-of-type {
         margin-bottom: 2rem;
     }
+}
+
+.menu strong {
+    color: var(--color-highlight);
 }
 
 .button-lg {
